@@ -9,7 +9,7 @@ class Engine
 {
 private:
 	// A regular RenderWindow
-	RenderWindow m_Window;
+	RenderWindow window;
 
 	//vector for Particles
 	vector<Particle> m_particles;
