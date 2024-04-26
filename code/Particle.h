@@ -1,6 +1,9 @@
 #pragma once
 #include "Matrices.h"
 #include <SFML/Graphics.hpp>
+#include <random>
+
+// std::uniform_int_distribution<int> distribution(0, NUMBER_VERTICES - 1)
 
 #define M_PI 3.1415926535897932384626433
 const float G = 1000;      //Gravity
@@ -22,7 +25,7 @@ public:
     void unitTests();
 
 private:
-    float m_ttl;
+    float m_ttl = TTL; // Global Constant
     int m_numPoints;
 	Vector2f m_centerCoordinate;
     float m_radiansPerSec;

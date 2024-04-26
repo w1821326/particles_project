@@ -2,7 +2,15 @@
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
-    // testing
+    m_numPoints = numPoints;
+    m_radiansPerSec = M_PI * std::uniform_real_distribution<float> distribution(0, M_PI);
+    m_cartesianPlane.setCenter(0,0);
+    m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
+    m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition);
+
+
+
+
 }
 
 virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
