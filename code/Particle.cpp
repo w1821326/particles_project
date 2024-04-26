@@ -2,7 +2,7 @@
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
-    
+    // testing
 }
 
 virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
