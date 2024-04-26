@@ -1,5 +1,47 @@
 #include "Particle.h"
+//Public Functions
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
+{
+    
+}
 
+virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
+{
+
+}
+
+void Particle::update(float dt)
+{
+
+}
+
+// Private Functions
+    ///rotate Particle by theta radians counter-clockwise
+    ///construct a RotationMatrix R, left mulitply it to m_A
+    void Particle::rotate(double theta)
+    {
+        RotationMatrix r = RotationMatrix(theta);
+        m_A = m_A * r; 
+    }
+
+    ///Scale the size of the Particle by factor c
+    ///construct a ScalingMatrix S, left multiply it to m_A
+    void Particle::scale(double c)
+    {
+        ScalingMatrix s = ScalingMatrix(c);
+        m_A = m_A * s;
+    }
+
+    ///shift the Particle by (xShift, yShift) coordinates
+    ///construct a TranslationMatrix T, add it to m_A
+    void Particle::translate(double xShift, double yShift)
+    {
+        TranslationMatrix t = TranslationMatrix(xShift, yShift);
+        m_A = m_A + t;
+    }
+
+//////////////////////////
+// Unit Testing functions
 
 bool Particle::almostEqual(double a, double b, double eps)
 {
