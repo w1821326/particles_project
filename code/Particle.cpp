@@ -7,7 +7,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition);
-
+// continue here a
 
 
 
