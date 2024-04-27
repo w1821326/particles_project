@@ -6,6 +6,7 @@ const float DEFAULT_BASE_HEIGHT = 4.0;
 
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
+const int DEFAULT_CHARACTER_SIZE = 16;
 const string DEFAULT_PRESENTATION_NAME = "Particles\n";
 const string DEFAULT_WINDOW_NAME = "Particle Program";
 
@@ -21,7 +22,7 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 	// vector<Particle> m_particles;
 
 	// Private functions for internal use only
-	void Engine;input()
+	void Engine::input()
     {
         Event event;
         while (window.pollEvent(event)) {
@@ -41,8 +42,8 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
                     break;
             }
         }
-        if (Keyboard::isKeyPressed(Keyboard::1)){cout << "Num line 1 pressed\n";}
-        if (Keyboard::isKeyPressed(Keyboard::2)){cout << "Num line 2 pressed\n";}
+        if (Keyboard::isKeyPressed(Keyboard::Num1)){cout << "Num line 1 pressed\n";}
+        if (Keyboard::isKeyPressed(Keyboard::Num2)){cout << "Num line 2 pressed\n";}
 
         if (Keyboard::isKeyPressed(Keyboard::Escape))
         {
@@ -51,21 +52,21 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 }
     
 
-	void Engine:update(float dtAsSeconds)
+	void Engine::update(float dtAsSeconds)
     {
 
     }
 	
-    void Engine:draw()
+    void Engine::draw()
     {
 
     }
 
 // public:
 	// The Engine constructor
-	Engine:Engine()
+	Engine::Engine()
     {
-        RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
+        RenderWindow window(VideoMode::getDesktopMode(), DEFAULT_WINDOW_NAME, Style::Fullscreen);
 
         Font font;
         if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
@@ -77,7 +78,7 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
     }
 
 	// Run will call all the private functions
-	void Engine:run()
+	void Engine::run()
     {
         Clock clock;
         clock.restart();
@@ -89,12 +90,12 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 
         while (window.isOpen()) 
         {
-            Time elapsed = clock.getElapsedTime().asSeconds(); // consider changing to micro or milli
+            float elapsed = (clock.getElapsedTime()).asSeconds(); // consider changing to micro or milli
             clock.restart();
 
-            engine.input();
-            engine.update();
-            engine.draw();
+            this->input();
+            this->update(elapsed);
+            this->draw();
         }
 
     }

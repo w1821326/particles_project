@@ -3,10 +3,16 @@
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
     m_numPoints = numPoints;
-    m_radiansPerSec = M_PI * std::uniform_real_distribution<float> distribution(0, M_PI);
+    
+    srand(time(0));
+    m_radiansPerSec = M_PI * (float)rand() / (2); // consider changing the constant to change max rotation speed
+    
     m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition);
+    m_ttl = TTL; // consider making random;
+    m_numPoints = numPoints;
+
 // continue here a
 
 

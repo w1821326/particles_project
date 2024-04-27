@@ -1,7 +1,8 @@
 #pragma once
 #include "Matrices.h"
 #include <SFML/Graphics.hpp>
-#include <random>
+#include <cstdlib>
+#include <time.h>
 
 // std::uniform_int_distribution<int> distribution(0, NUMBER_VERTICES - 1)
 
@@ -25,7 +26,7 @@ public:
     void unitTests();
 
 private:
-    float m_ttl = TTL; // Global Constant
+    float m_ttl;
     int m_numPoints;
 	Vector2f m_centerCoordinate;
     float m_radiansPerSec;
