@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <time.h>
+#include <random>
 
 // std::uniform_int_distribution<int> distribution(0, NUMBER_VERTICES - 1)
 

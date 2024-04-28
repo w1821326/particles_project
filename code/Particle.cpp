@@ -2,6 +2,9 @@
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
     m_numPoints = numPoints;
     
     srand(time(0));
@@ -22,13 +25,30 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_vy = (rand() % (200 + 1));
 
     m_color1 = Color(255,255,255,255);
+    int red;
+    int green;
+    int blue;
     do
-    (
-        int red = rand() % (255+1);
-        int green = rand() % (255+1);
-        int blue = rand() % (255+1);
+    {
+        red = rand() % (255+1);
+        green = rand() % (255+1);
+        blue = rand() % (255+1);
     
-    ) while ((red + green + blue) >= 200)
+    } while ((red + green + blue) <= 200);
+    m_color2 = Color(red, green, blue, 255);
+
+    // Choose a uniform real distribution for floats in the range [0, 1)
+    std::uniform_real_distribution<float> distribution(0.0f, M_PI/2);
+
+    // Generate random floats
+    float theta = distribution(gen);
+    float dTheta = 2 * M_PI / (numPoints-1);
+
+    for (int j = 0; j < numPoints; j++)
+    {
+        float r, dx, dy;
+        
+    }
 
 // continue here a
 
@@ -36,7 +56,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
 }
 
-virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
+void Particle::draw(RenderTarget& target, RenderStates states) const
 {
 
 }
