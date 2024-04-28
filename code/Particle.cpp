@@ -13,6 +13,23 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_ttl = TTL; // consider making random;
     m_numPoints = numPoints;
 
+    m_cartesianPlane.setCenter(0,0);
+    m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
+
+    m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+
+    m_vx = (rand() % (500 - 500 + 1)) + (-500);
+    m_vy = (rand() % (200 + 1));
+
+    m_color1 = Color(255,255,255,255);
+    do
+    (
+        int red = rand() % (255+1);
+        int green = rand() % (255+1);
+        int blue = rand() % (255+1);
+    
+    ) while ((red + green + blue) >= 200)
+
 // continue here a
 
 
