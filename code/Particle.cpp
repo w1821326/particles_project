@@ -37,7 +37,8 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     } while ((red + green + blue) <= 200);
     m_color2 = Color(red, green, blue, 255);
 
-    // Choose a uniform real distribution for floats in the range [0, 1)
+    m_A = Matrix(2, m_numPoints);
+
     std::uniform_real_distribution<float> distribution(0.0f, M_PI/2);
 
     // Generate random floats
@@ -48,10 +49,16 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     {
         float r, dx, dy;
         
+        std::uniform_real_distribution<float> r_dist(20.0f, 80.0f);
+        r = r_dist(gen);
+        dx = r * cos(theta);
+        dy = r * sin(theta);
+
+        m_A(0, j) = m_centerCoordinate.x + dx;
+        m_A(1, j) = m_centerCoordinate.y + dy;
+
+        theta += dTheta;
     }
-
-// continue here a
-
 
 
 }
