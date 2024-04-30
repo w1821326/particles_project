@@ -68,10 +68,13 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
     {
         // RenderWindow window(VideoMode::getDesktopMode(), DEFAULT_WINDOW_NAME, Style::Fullscreen);
 
-        int  m_pixelWidth = VideoMode::getDesktopMode().width / 2;
-        int m_pixelHeight = VideoMode::getDesktopMode().height / 2;
+        // int  m_pixelWidth = VideoMode::getDesktopMode().width / 2;
+        // int m_pixelHeight = VideoMode::getDesktopMode().height / 2;
 
-        RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
+        //RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
+        
+        sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+        window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
 
         Font font;
         if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
