@@ -6,7 +6,7 @@ const float DEFAULT_BASE_HEIGHT = 4.0;
 
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
-const int DEFAULT_CHARACTER_SIZE = 16;
+const int DEFAULT_CHARACTER_SIZE = 26;
 const string DEFAULT_PRESENTATION_NAME = "Particles\n";
 const string DEFAULT_WINDOW_NAME = "Particle Program";
 
@@ -33,10 +33,8 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
                     break;
                 case Event::MouseButtonPressed:
                     if (event.mouseButton.button == Mouse::Right) {
-                        cout << "Right mouse button clicked\n";
                     }
                     if (event.mouseButton.button == Mouse::Left) {
-                        cout << "Left mouse button clicked\n";
                         for (int i = 0; i < 5; i++)
                         {
                             std::random_device rd;
@@ -52,8 +50,8 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
                     break;
             }
         }
-        if (Keyboard::isKeyPressed(Keyboard::Num1)){cout << "Num line 1 pressed\n";}
-        if (Keyboard::isKeyPressed(Keyboard::Num2)){cout << "Num line 2 pressed\n";}
+        if (Keyboard::isKeyPressed(Keyboard::Num1)){}
+        if (Keyboard::isKeyPressed(Keyboard::Num2)){}
 
         if (Keyboard::isKeyPressed(Keyboard::Escape))
         {
@@ -100,8 +98,8 @@ void Engine::draw()
 	Engine::Engine()
     {
         sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-        //window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
-        window.create(desktopMode, "", sf::Style::Default);
+        window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
+        //window.create(desktopMode, "", sf::Style::Default);
 
         
         if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
@@ -110,7 +108,7 @@ void Engine::draw()
         } else {
             cerr << "Font loaded successfully\n";
         }
-        text = Text("Testing\n", font, DEFAULT_CHARACTER_SIZE);
+        text = Text("Left Click to spawn particles!\n", font, DEFAULT_CHARACTER_SIZE);
         text.setFillColor(DEFAULT_TEXT_COLOR);
     }
 
@@ -126,9 +124,6 @@ void Engine::draw()
         Particle p(window, 4, { (int)window.getSize().x/2, (int)window.getSize().y/2});
         p.unitTests();
         cout << "Unit tests complete. Starting engine..." << endl;
-
-        Particle a(window, 8,{ (int)window.getSize().x/2, (int)window.getSize().y/2});
-        m_particles.push_back(a);
 
         while (window.isOpen()) 
         {

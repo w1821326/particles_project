@@ -4,7 +4,7 @@
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
-    cerr << "Made it into Particle() at x = " << mouseClickPosition.x << " y = " << mouseClickPosition.y << endl;
+
     std::random_device rd;
     std::mt19937 gen(rd());
 
@@ -18,7 +18,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
 
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
-    cout << "m_centerCoordinate.x = " << m_centerCoordinate.x << "m_centerCoordinate.y = " << m_centerCoordinate.y << endl;
+  
     m_ttl = TTL; // consider making random;
 
     std::uniform_int_distribution<int> left_or_right(0, 1); // 0 represents the first range, 1 represents the second range
@@ -90,8 +90,7 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
     VertexArray lines(PrimitiveType::TriangleFan, m_numPoints+1);
 
     Vector2f center = static_cast<sf::Vector2f>(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
-    
-    cout << "center drawn at pixel (" << center.x << ", " << center.y << ")\n";
+
 
     lines[0].position = center;
     lines[0].color = m_color1;
@@ -110,22 +109,7 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
 
     target.draw(lines);
 
-   /*
-    sf::VertexArray triangle(sf::Triangles, 3);
-    
-    // Set the position and color of each vertex
-    triangle[0].position = sf::Vector2f(target.getSize().x / 2, 50); // Top corner
-    triangle[0].color = sf::Color::Red;
-    
-    triangle[1].position = sf::Vector2f(50, target.getSize().y - 50); // Bottom left corner
-    triangle[1].color = sf::Color::Green;
-    
-    triangle[2].position = sf::Vector2f(target.getSize().x - 50, target.getSize().y - 50); // Bottom right corner
-    triangle[2].color = sf::Color::Blue;
-    
-    // Draw the triangle
-    target.draw(triangle);
-    */
+
 }
 
 
