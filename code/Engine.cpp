@@ -24,6 +24,10 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 	// Private functions for internal use only
 	void Engine::input()
     {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> points(3, 16);
+
         Event event;
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -36,6 +40,11 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
                     }
                     if (event.mouseButton.button == Mouse::Left) {
                         cout << "Left mouse button clicked\n";
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Particle p(window, points(gen), sf::Mouse::getPosition(window));
+                            m_particles.push_back(p);
+                        }
                     }
                     break;
                 default:
@@ -54,12 +63,25 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 
 	void Engine::update(float dtAsSeconds)
     {
-
+        for (auto it = m_particles.begin(); it != m_particles.end();) {
+        if ((*it).getTTL() <= 0) { 
+            it = m_particles.erase(it); // Remove the current element and get the iterator to the next one
+        } else {
+            (*it).update(dtAsSeconds); // could add multithreading here maybe
+            ++it; // Move to the next element
+        }
+    }
     }
 	
     void Engine::draw()
     {
+        window.clear();
 
+        for (auto p : m_particles)
+        {
+            
+            window.draw(p);// multithreading here?
+        }
     }
 
 // public:
@@ -72,7 +94,9 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
         // int m_pixelHeight = VideoMode::getDesktopMode().height / 2;
 
         //RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
-        
+
+
+
         sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
         window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
 
@@ -90,15 +114,13 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 	// Run will call all the private functions
 	void Engine::run()
     {
-        cerr << "Engine.run started\n";
+       
         Clock clock;
         clock.restart();
-        cerr << "clock started\n";
-
+  
         cout<< "Starting Particle unit tests..." << endl;
-        cerr << "creating particle\n";
+        
         Particle p(window, 4, { (int)window.getSize().x/2, (int)window.getSize().y/2});
-        cerr << "particle created\n";
         p.unitTests();
         cout << "Unit tests complete. Starting engine..." << endl;
 

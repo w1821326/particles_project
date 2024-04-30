@@ -4,8 +4,11 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
 #include "Particle.h"
+#include <cstdlib>
+
 using namespace sf;
 using namespace std;
+
 
 class Engine
 {
