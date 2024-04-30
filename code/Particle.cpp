@@ -38,9 +38,8 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     
     } while ((red + green + blue) <= 200);
     m_color2 = Color(red, green, blue, 255);
-
-    Matrix mat(2, m_numPoints); 
-    m_A = mat;
+ 
+    m_A(2, m_numPoints);
 
     std::uniform_real_distribution<float> distribution(0.0f, MY_PI/2);
 

@@ -12,7 +12,7 @@ namespace Matrices
     class Matrix
     {
         public:
-            Matrix();
+            Matrix() : rows(0), cols(0) {}
             ///Construct a matrix of the specified size.
             ///Initialize each element to 0.
             Matrix(int _rows, int _cols);
