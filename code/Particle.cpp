@@ -13,13 +13,11 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     srand(time(0));
     m_radiansPerSec = MY_PI * (float)rand() / (2); // consider changing the constant to change max rotation speed
     
-        m_cartesianPlane.setCenter(0,0);
+    m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
 
-    m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition);
-    m_ttl = TTL; // consider making random;
-
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    m_ttl = TTL; // consider making random;
 
     
     m_vx = (rand() % (500 - 500 + 1)) + (-500);
@@ -68,12 +66,13 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
 }
 
-void Particle::draw(RenderTarget& target, RenderStates states = RenderStates::Default) const
+void Particle::draw(RenderTarget& target, RenderStates states) const
 {
     VertexArray lines(PrimitiveType::TriangleFan, m_numPoints+1);
 
     Vector2f center = static_cast<sf::Vector2f>(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     
+
     lines[0].position = center;
     lines[0].color = m_color1;
 
@@ -91,6 +90,7 @@ void Particle::draw(RenderTarget& target, RenderStates states = RenderStates::De
 
     target.draw(lines);
 
+   /*
     sf::VertexArray triangle(sf::Triangles, 3);
     
     // Set the position and color of each vertex
@@ -105,7 +105,7 @@ void Particle::draw(RenderTarget& target, RenderStates states = RenderStates::De
     
     // Draw the triangle
     target.draw(triangle);
-
+    */
 }
 
 
