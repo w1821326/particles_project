@@ -1,4 +1,6 @@
 #include "Particle.h"
+
+
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
@@ -8,7 +10,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_numPoints = numPoints;
     
     srand(time(0));
-    m_radiansPerSec = M_PI * (float)rand() / (2); // consider changing the constant to change max rotation speed
+    m_radiansPerSec = MY_PI * (float)rand() / (2); // consider changing the constant to change max rotation speed
     
     m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
@@ -37,13 +39,14 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     } while ((red + green + blue) <= 200);
     m_color2 = Color(red, green, blue, 255);
 
-    m_A = Matrix(2, m_numPoints);
+    Matrix mat(2, m_numPoints); 
+    m_A = mat;
 
-    std::uniform_real_distribution<float> distribution(0.0f, M_PI/2);
+    std::uniform_real_distribution<float> distribution(0.0f, MY_PI/2);
 
     // Generate random floats
     float theta = distribution(gen);
-    float dTheta = 2 * M_PI / (numPoints-1);
+    float dTheta = 2 * MY_PI / (numPoints-1);
 
     for (int j = 0; j < numPoints; j++)
     {
@@ -156,8 +159,8 @@ void Particle::unitTests()
     int score = 0;
 
     cout << "Testing RotationMatrix constructor...";
-    double theta = M_PI / 4.0;
-    RotationMatrix r(M_PI / 4);
+    double theta = MY_PI / 4.0;
+    RotationMatrix r(MY_PI / 4);
     if (r.getRows() == 2 && r.getCols() == 2 && almostEqual(r(0, 0), cos(theta))
         && almostEqual(r(0, 1), -sin(theta))
         && almostEqual(r(1, 0), sin(theta))
@@ -220,7 +223,7 @@ void Particle::unitTests()
 
     cout << "Applying one rotation of 90 degrees about the origin..." << endl;
     Matrix initialCoords = m_A;
-    rotate(M_PI / 2.0);
+    rotate(MY_PI / 2.0);
     bool rotationPassed = true;
     for (int j = 0; j < initialCoords.getCols(); j++)
     {
