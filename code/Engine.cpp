@@ -39,7 +39,7 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
                         {
                             std::random_device rd;
                             std::mt19937 gen(rd());
-                            std::uniform_int_distribution<int> points(5, 10);
+                            std::uniform_int_distribution<int> points(20, 30);
 
                             Particle p(window, points(gen), sf::Mouse::getPosition(window));
                             m_particles.push_back(p);
