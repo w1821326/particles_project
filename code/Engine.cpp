@@ -24,9 +24,6 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 	// Private functions for internal use only
 	void Engine::input()
     {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> points(3, 16);
 
         Event event;
         while (window.pollEvent(event)) {
@@ -42,6 +39,10 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
                         cout << "Left mouse button clicked\n";
                         for (int i = 0; i < 5; i++)
                         {
+                            std::random_device rd;
+                            std::mt19937 gen(rd());
+                            std::uniform_int_distribution<int> points(5, 10);
+
                             Particle p(window, points(gen), sf::Mouse::getPosition(window));
                             m_particles.push_back(p);
                         }
@@ -72,6 +73,7 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
         } else {
             (*it).update(dtAsSeconds); // could add multithreading here maybe
             ++it; // Move to the next element
+            //cout << "updating particle" << endl;
         }
         }
     }
@@ -98,7 +100,8 @@ void Engine::draw()
 	Engine::Engine()
     {
         sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-        window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
+        //window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
+        window.create(desktopMode, "", sf::Style::Default);
 
         
         if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
@@ -124,10 +127,14 @@ void Engine::draw()
         p.unitTests();
         cout << "Unit tests complete. Starting engine..." << endl;
 
+        Particle a(window, 8,{ (int)window.getSize().x/2, (int)window.getSize().y/2});
+        m_particles.push_back(a);
+
         while (window.isOpen()) 
         {
-            float elapsed = (clock.getElapsedTime()).asSeconds(); // consider changing to micro or milli
-            clock.restart();
+            //float elapsed = (clock.getElapsedTime()).asSeconds(); // consider changing to micro or milli
+            //clock.restart();
+            float elapsed = (clock.restart()).asSeconds();
 
             this->input();
             this->update(elapsed);

@@ -4,35 +4,54 @@
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
-    cerr << "Made it into Particle()\n";
+    cerr << "Made it into Particle() at x = " << mouseClickPosition.x << " y = " << mouseClickPosition.y << endl;
     std::random_device rd;
     std::mt19937 gen(rd());
 
     m_numPoints = numPoints;
     
     srand(time(0));
-    m_radiansPerSec = MY_PI * (float)rand() / (2); // consider changing the constant to change max rotation speed
+    std::uniform_int_distribution<int> rotation_speed_mod(1, 5);
+    m_radiansPerSec = MY_PI * rotation_speed_mod(gen); // consider changing the constant to change max rotation speed
     
     m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
 
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    cout << "m_centerCoordinate.x = " << m_centerCoordinate.x << "m_centerCoordinate.y = " << m_centerCoordinate.y << endl;
     m_ttl = TTL; // consider making random;
 
-    
-    m_vx = (rand() % (500 - 500 + 1)) + (-500);
-    m_vy = (rand() % (200 + 1));
+    std::uniform_int_distribution<int> left_or_right(0, 1); // 0 represents the first range, 1 represents the second range
+
+    int selection = left_or_right(gen);
+
+    // Generate and print a random number based on the selection
+    int randomNumber;
+    if (selection == 0) {
+        // Generate a random number between 100 and 500
+        std::uniform_int_distribution<int> right_speed(100, 500);
+        randomNumber = right_speed(gen);
+    } else {
+        // Generate a random number between -100 and -500
+        std::uniform_int_distribution<int> left_speed(-500, -100);
+        randomNumber = left_speed(gen);
+    }
+    m_vx = randomNumber;
+
+    std::uniform_int_distribution<int> up_speed(500, 1000);
+    m_vy = up_speed(gen);
 
     m_color1 = Color(255,255,255,255);
+
+    std::uniform_int_distribution<int> color_picker(0, 255);
     int red;
     int green;
     int blue;
     do
     {
-        red = rand() % (255+1);
-        green = rand() % (255+1);
-        blue = rand() % (255+1);
-    
+        red = color_picker(gen);
+        green = color_picker(gen);
+        blue = color_picker(gen);
     } while ((red + green + blue) <= 200);
     m_color2 = Color(red, green, blue, 255);
  
@@ -72,6 +91,7 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
 
     Vector2f center = static_cast<sf::Vector2f>(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     
+    cout << "center drawn at pixel (" << center.x << ", " << center.y << ")\n";
 
     lines[0].position = center;
     lines[0].color = m_color1;
@@ -115,7 +135,7 @@ void Particle::update(float dt)
     m_ttl -= dt;
 
     this->rotate(dt*m_radiansPerSec);
-    this->scale(dt);
+    this->scale(0.999);
 
     float dx = dt * m_vx;
     
