@@ -87,6 +87,8 @@ void Engine::draw()
         window.draw(p, RenderStates::Default);
     }
 
+    window.draw(text);
+
     window.display(); 
 }
 
@@ -98,14 +100,14 @@ void Engine::draw()
         sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
         window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
 
-        Font font;
+        
         if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
             cerr << "Error loading font" << endl;
             return;
         } else {
             cerr << "Font loaded successfully\n";
         }
-        Text text("", font, DEFAULT_CHARACTER_SIZE);
+        text = Text("Testing\n", font, DEFAULT_CHARACTER_SIZE);
         text.setFillColor(DEFAULT_TEXT_COLOR);
     }
 

@@ -72,9 +72,9 @@ void Particle::draw(RenderTarget& target, RenderStates states = RenderStates::De
 {
     VertexArray lines(PrimitiveType::TriangleFan, m_numPoints+1);
 
-    Vector2i center = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
+    Vector2f center = static_cast<sf::Vector2f>(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     
-    lines[0].position = static_cast<sf::Vector2f>(center);
+    lines[0].position = center;
     lines[0].color = m_color1;
 
     for (int j = 1; j < m_numPoints+1; j++)
@@ -88,7 +88,24 @@ void Particle::draw(RenderTarget& target, RenderStates states = RenderStates::De
         lines[j].color = m_color2;
     }
 
+
     target.draw(lines);
+
+    sf::VertexArray triangle(sf::Triangles, 3);
+    
+    // Set the position and color of each vertex
+    triangle[0].position = sf::Vector2f(target.getSize().x / 2, 50); // Top corner
+    triangle[0].color = sf::Color::Red;
+    
+    triangle[1].position = sf::Vector2f(50, target.getSize().y - 50); // Bottom left corner
+    triangle[1].color = sf::Color::Green;
+    
+    triangle[2].position = sf::Vector2f(target.getSize().x - 50, target.getSize().y - 50); // Bottom right corner
+    triangle[2].color = sf::Color::Blue;
+    
+    // Draw the triangle
+    target.draw(triangle);
+
 }
 
 

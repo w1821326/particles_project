@@ -15,6 +15,8 @@ class Engine
 private:
 	// A regular RenderWindow
 	RenderWindow window;
+	Font font;
+	Text text;
 
 	//vector for Particles
 	vector<Particle> m_particles;
