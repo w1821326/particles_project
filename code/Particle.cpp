@@ -65,27 +65,42 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
 void Particle::draw(RenderTarget& target, RenderStates states) const
 {
-    VertexArray lines(TriangleFan, m_numPoints+1);
+    VertexArray lines(PrimitiveType::TriangleFan, m_numPoints+1);
 
     Vector2i center = target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane);
     
-    lines[0].position = center;
+    lines[0].position = static_cast<sf::Vector2f>(center);
     lines[0].color = m_color1;
 
     for (int j = 1; j < m_numPoints+1; j++)
     {
-        Vector2f next_point(m_A(0, j-1), m_A(1, j-1));
+        Vector2f next_point_f(m_A(0, j-1), m_A(1, j-1));
 
-        lines[j].position = target.mapCoordsToPixel(next_point, m_cartesianPlane);
+
+        Vector2i next_point_i = target.mapCoordsToPixel(next_point_f, m_cartesianPlane);
+
+        lines[j].position = static_cast<sf::Vector2f>(next_point_i);
         lines[j].color = m_color2;
     }
 
+    target.draw(lines);
 }
 
 
 
 void Particle::update(float dt)
 {
+    m_ttl -= dt;
+
+    this->rotate(dt*m_radiansPerSec);
+    this->scale(dt);
+
+    float dx = dt * m_vx;
+    
+    m_vy -= (G*dt);
+    float dy = (m_vy*dt);
+
+    this->translate(dx, dy); 
 
 }
 
@@ -94,24 +109,38 @@ void Particle::update(float dt)
     ///construct a RotationMatrix R, left mulitply it to m_A
     void Particle::rotate(double theta)
     {
+        Vector2f temp = m_centerCoordinate;
+        this->translate(-m_centerCoordinate.x, -m_centerCoordinate.y);
+        
         RotationMatrix r = RotationMatrix(theta);
+
         m_A = m_A * r; 
+
+        this->translate(temp.x, temp.y);
     }
 
     ///Scale the size of the Particle by factor c
     ///construct a ScalingMatrix S, left multiply it to m_A
     void Particle::scale(double c)
     {
+        Vector2f temp = m_centerCoordinate;
+        this->translate(-m_centerCoordinate.x, -m_centerCoordinate.y);
+        
         ScalingMatrix s = ScalingMatrix(c);
-        m_A = m_A * s;
+        m_A = s * m_A;
+
+        this->translate(temp.x, temp.y);
     }
 
     ///shift the Particle by (xShift, yShift) coordinates
     ///construct a TranslationMatrix T, add it to m_A
     void Particle::translate(double xShift, double yShift)
     {
-        TranslationMatrix t = TranslationMatrix(xShift, yShift);
-        m_A = m_A + t;
+        TranslationMatrix t = TranslationMatrix(xShift, yShift, m_numPoints);
+        m_A = t + m_A;
+
+        m_centerCoordinate.x += xShift;
+        m_centerCoordinate.y += yShift;
     }
 
 //////////////////////////
