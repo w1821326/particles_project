@@ -66,12 +66,19 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 	// The Engine constructor
 	Engine::Engine()
     {
-        RenderWindow window(VideoMode::getDesktopMode(), DEFAULT_WINDOW_NAME, Style::Fullscreen);
+        // RenderWindow window(VideoMode::getDesktopMode(), DEFAULT_WINDOW_NAME, Style::Fullscreen);
+
+        int  m_pixelWidth = VideoMode::getDesktopMode().width / 2;
+        int m_pixelHeight = VideoMode::getDesktopMode().height / 2;
+
+        RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
 
         Font font;
         if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
             cerr << "Error loading font" << endl;
             return;
+        } else {
+            cerr << "Font loaded successfully\n";
         }
         Text text("", font, DEFAULT_CHARACTER_SIZE);
         text.setFillColor(DEFAULT_TEXT_COLOR);
@@ -80,11 +87,15 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 	// Run will call all the private functions
 	void Engine::run()
     {
+        cerr << "Engine.run started\n";
         Clock clock;
         clock.restart();
+        cerr << "clock started\n";
 
         cout<< "Starting Particle unit tests..." << endl;
+        cerr << "creating particle\n";
         Particle p(window, 4, { (int)window.getSize().x/2, (int)window.getSize().y/2});
+        cerr << "particle created\n";
         p.unitTests();
         cout << "Unit tests complete. Starting engine..." << endl;
 

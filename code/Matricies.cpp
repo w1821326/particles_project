@@ -2,9 +2,10 @@
 using namespace std;
 namespace Matrices
 {
+    Matrix::Matrix() : rows(0), cols(0) {}
     Matrix::Matrix(int _rows, int _cols) : rows(_rows), cols(_cols)
     {
-        a.resize(rows, std::vector<double>(cols, 0.0));
+        a.resize(_rows, std::vector<double>(_cols, 0.0));
     }
 
     std::ostream& operator<<(std::ostream& os, const Matrices::Matrix& a)
@@ -143,8 +144,8 @@ namespace Matrices
     {
         a[0][0] = scale;
         a[0][1] = 0;
-        a[1][0] = scale;
-        a[1][1] = 0;
+        a[1][0] = 0;
+        a[1][1] = scale;
     }
 
 

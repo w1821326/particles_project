@@ -4,6 +4,7 @@
 //Public Functions
 Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
+    cerr << "Made it into Particle()\n";
     std::random_device rd;
     std::mt19937 gen(rd());
 
@@ -12,17 +13,16 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     srand(time(0));
     m_radiansPerSec = MY_PI * (float)rand() / (2); // consider changing the constant to change max rotation speed
     
+    cerr << "Setting up Cartesian Plane\n";
     m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0)*target.getSize().y);
+
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition);
     m_ttl = TTL; // consider making random;
-    m_numPoints = numPoints;
-
-    m_cartesianPlane.setCenter(0,0);
-    m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
 
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
 
+    cerr << "Setting up colors\n";
     m_vx = (rand() % (500 - 500 + 1)) + (-500);
     m_vy = (rand() % (200 + 1));
 
@@ -39,7 +39,11 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     } while ((red + green + blue) <= 200);
     m_color2 = Color(red, green, blue, 255);
  
-    m_A(2, m_numPoints);
+    cerr << "assigned colors\n";
+
+    m_A = Matrix(2, m_numPoints);
+
+    cerr << "made it here\n";
 
     std::uniform_real_distribution<float> distribution(0.0f, MY_PI/2);
 
