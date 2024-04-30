@@ -68,7 +68,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
 }
 
-void Particle::draw(RenderTarget& target, RenderStates states) const
+void Particle::draw(RenderTarget& target, RenderStates states = RenderStates::Default) const
 {
     VertexArray lines(PrimitiveType::TriangleFan, m_numPoints+1);
 

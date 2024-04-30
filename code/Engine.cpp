@@ -63,40 +63,38 @@ const string DEFAULT_WINDOW_NAME = "Particle Program";
 
 	void Engine::update(float dtAsSeconds)
     {
-        for (auto it = m_particles.begin(); it != m_particles.end();) {
+        if (m_particles.empty() == false)
+        {
+        for (auto it = m_particles.begin(); it != m_particles.end();) 
+        {
         if ((*it).getTTL() <= 0) { 
             it = m_particles.erase(it); // Remove the current element and get the iterator to the next one
         } else {
             (*it).update(dtAsSeconds); // could add multithreading here maybe
             ++it; // Move to the next element
         }
-    }
-    }
-	
-    void Engine::draw()
-    {
-        window.clear();
-
-        for (auto p : m_particles)
-        {
-            
-            window.draw(p);// multithreading here?
         }
     }
+
+    }
+	
+void Engine::draw()
+{
+    window.clear();
+
+    for (const Particle& p : m_particles)
+    {
+        window.draw(p, RenderStates::Default);
+    }
+
+    window.display(); 
+}
+
 
 // public:
 	// The Engine constructor
 	Engine::Engine()
     {
-        // RenderWindow window(VideoMode::getDesktopMode(), DEFAULT_WINDOW_NAME, Style::Fullscreen);
-
-        // int  m_pixelWidth = VideoMode::getDesktopMode().width / 2;
-        // int m_pixelHeight = VideoMode::getDesktopMode().height / 2;
-
-        //RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
-
-
-
         sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
         window.create(desktopMode, "", sf::Style::Fullscreen | sf::Style::None);
 
